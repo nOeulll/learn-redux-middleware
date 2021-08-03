@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 
 function Counter({ number, onIncrease, onDecrease }) {

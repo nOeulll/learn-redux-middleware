@@ -2,7 +2,8 @@ import * as postsAPI from '../api/posts';
 import { 
   reducerUtils,
   createPromiseSaga,
-  createPromiseSagaById
+  createPromiseSagaById,
+  handleAsyncActions
 } from '../lib/asyncUtils';
 import { takeEvery, getContext, select } from 'redux-saga/effects';
 
@@ -50,8 +51,11 @@ export const clearPost = () => ({ type: CLEAR_POST });
 
 const initialState = {
   posts: reducerUtils.initial(),
-  post: {}
+  post: reducerUtils.initial()
 };
+
+const getPostsReducer = handleAsyncActions(GET_POSTS, 'posts');
+const getPostReducer = handleAsyncActions(GET_POST, 'post')
 
 export default function posts(state = initialState, action) {
   switch (action.type) {

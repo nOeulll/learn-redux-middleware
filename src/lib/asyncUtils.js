@@ -1,4 +1,3 @@
-import { identifier } from 'babel-types';
 import { call, put } from 'redux-saga/effects';
 
 export const createPromiseSaga = (type, promiseCreator) => {
@@ -16,19 +15,6 @@ export const createPromiseSaga = (type, promiseCreator) => {
         error: true,
         payload: e
       });
-    }
-  }
-}
-
-export const handleAsyncActions = (type, key) => {
-  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
-  return (state, action) => {
-    switch (action.type) {
-      case type:
-        return {
-          ...state,
-          
-        }
     }
   }
 }
@@ -51,6 +37,31 @@ export const createPromiseSagaById = (type, promiseCreator) => {
         payload: e,
         meta: id
       });
+    }
+  }
+}
+
+export const handleAsyncActions = (type, key) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return (state, action) => {
+    switch (action.type) {
+      case type:
+        return {
+          ...state,
+          [key]: reducerUtils.loading(),
+        }
+      case SUCCESS:
+        return {
+          ...state,
+          [key]: reducerUtils.success(action.payload)
+        };
+      case ERROR:
+        return {
+          ...state,
+          [key]: reducerUtils.error(action.payload)
+        };
+      default:
+        return state;
     }
   }
 }
